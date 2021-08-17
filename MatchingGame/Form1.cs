@@ -33,8 +33,8 @@ namespace MatchingGame
 
         List<string> icons = new List<string>()
     {
-        "!", "!", "N", "N", ",", ",", "k", "k",
-        "b", "b", "v", "v", "w", "w", "z", "z"
+        "!", "!", "N", "N", "B", "B", "o", "o",
+        "b", "b", "v", "v", "w", "w", "Y", "Y"
     };
 
         private void AssignIconsToSquares()
@@ -49,7 +49,9 @@ namespace MatchingGame
                     int randomNumber = random.Next(icons.Count);
                     iconLabel.Text = icons[randomNumber];
 
-                    iconLabel.ForeColor = iconLabel.BackColor; //this line makes the icons hide from the player by setting the forecolor to be the same as the backcolor.
+                    //this line makes the icons hide from the player by setting the forecolor to be the same as the backcolor.
+
+                    iconLabel.ForeColor = iconLabel.BackColor;
 
                     icons.RemoveAt(randomNumber);
                 }
@@ -92,6 +94,18 @@ namespace MatchingGame
                 secondClicked.ForeColor = Color.Black;
 
 
+                // check to see if player won game
+                CheckForWinner();
+
+
+                // this keeps two matching icons visible
+                if(firstClicked.Text == secondClicked.Text)
+                {
+                    firstClicked = null;
+                    secondClicked = null;
+                    return;
+                }
+
                 timer1.Start();
 
 
@@ -112,6 +126,23 @@ namespace MatchingGame
             firstClicked = null;
             secondClicked = null;
 
+        }
+
+        private void CheckForWinner()
+        {
+            foreach (Control control in tableLayoutPanel1.Controls)
+            {
+                Label iconLabel = control as Label;
+
+                if (iconLabel != null)
+                {
+                    if (iconLabel.ForeColor == iconLabel.BackColor)
+                        return;
+                }
+            }
+
+            MessageBox.Show("Congratulations, You matched all the icons!");
+            Close();
         }
     }
 
