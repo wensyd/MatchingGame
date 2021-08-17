@@ -58,6 +58,10 @@ namespace MatchingGame
 
         private void label_Click(object sender, EventArgs e)
         {
+
+            if (timer1.Enabled == true)
+                return;
+
             Label clickedLabel = sender as Label;
 
             if (clickedLabel != null)
@@ -81,12 +85,33 @@ namespace MatchingGame
                 {
                     firstClicked = clickedLabel;
                     firstClicked.ForeColor = Color.Black;
-
                     return;
                 }
 
+                secondClicked = clickedLabel;
+                secondClicked.ForeColor = Color.Black;
+
+
+                timer1.Start();
+
 
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // stops timer
+            timer1.Stop();
+
+            //Hide both icons
+            firstClicked.ForeColor = firstClicked.BackColor;
+            secondClicked.ForeColor = secondClicked.BackColor;
+
+            //reset firstClicked and secondClicked
+
+            firstClicked = null;
+            secondClicked = null;
+
         }
     }
 
